@@ -4,7 +4,7 @@
 #include <string>
 
 class TFBroadcastPR  {
-public:
+protected:
   std::string _parent; 
   std::string _child;
   double _pX;
@@ -16,10 +16,9 @@ public:
   double _oW;
   tf2_ros::TransformBroadcaster _br;
 
+public:
   TFBroadcastPR(std::string a, std::string b, double pX, double pY, double pZ, double oX, double oY, double oZ, double oW);
-
   void send();
-  
 };
 
 

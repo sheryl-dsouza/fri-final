@@ -17,34 +17,35 @@ int main(int argc, char **argv) {
  ros::NodeHandle n;
  tf::TransformListener listener;
 
- ROSINFOPoseRecipient rosInfoPR;
-// TFBroadcastPR tfBroadcastPR1;
- //TFBroadcastPR tfBroadcastPR2;
- // DriveRobotPR driveR;
- 
- while (n.ok()){
-       tf::StampedTransform tf;
 
-       try{
-         TFBroadcastPR tfBroadcastPR1("/base_link", "/study_room_1", 15, 23, 42, 32, 2, 3,2);
-         tfBroadcastPR1.receivePose(NULL);
-         listener.lookupTransform("/base_link","/study_room_1",  ros::Time(0), tf);        
-          driveR(tfBroadcastPR1);
-          driveR.receivePose(tf);
+  TFBroadcastPR tfBroadcastPR1(
+    "/odom", "/study_room_1",
+    15.841, 116.220, -0.000,
+    0.000, -0.000, 0.258, 0.966);
 
-         TFBroadcastPR tfBroadcastPR2("/base_link", "/study_room_2", 35, 12, 12, 9, 3, 2, 1);
-         tfBroadcastPR2.receivePose(NULL);
-         listener.lookupTransform("/base_link","/study_room_2",  ros::Time(0), tf);
-        DriveRobotPR driveR(tfBroadcastPR2);
-          driveR.receivePose(tf);
-       }
-       catch (tf::TransformException ex){
-         ROS_ERROR("%s",ex.what());
-         ros::Duration(1.0).sleep();
-         continue;
-       }
-       ros::spinOnce();
-       
+  TFBroadcastPR tfBroadcastPR2(
+    "/odom", "/study_room_2",
+    44.542, 104.611, 0.003,
+    -0.004, -0.005, -0.662, 0.749);
+
+ ros::Rate r(10);
+ while (ros::ok()){
+    tfBroadcastPR1.send();
+    tfBroadcastPR2.send();
+
+    /*
+    tf::StampedTransform tf;
+    listener.lookupTransform("/base_link","/study_room_1",  ros::Time(0), tf);        
+    driveR(tfBroadcastPR1);
+    driveR.receivePose(tf);
+
+    listener.lookupTransform("/base_link","/study_room_2",  ros::Time(0), tf);
+  DriveRobotPR driveR(tfBroadcastPR2);
+    driveR.receivePose(tf);
+    */
+
+  ros::spinOnce();
+  r.sleep();
  }
 
  
