@@ -52,6 +52,22 @@ void driveRobot(
 
 }
 
+void chatterCallback(const std_msgs::Int8::ConstPtr& msg)
+{
+    switch (im_in_room) {
+        case 0:
+            break;
+        case 1:
+            ROS_INFO("In room 1");
+            ROS_INFO("I heard: [%s]", msg->data.c_str());
+            break;
+        case 2:
+            ROS_INFO("In room 2");
+            ROS_INFO("I heard: [%s]", msg->data.c_str());   
+            break;          
+    }
+    
+ }
 
 int main(int argc, char **argv) {
     ros::init(argc, argv, "really_drive_robot");
@@ -63,6 +79,7 @@ int main(int argc, char **argv) {
     MoveBaseClient ac("/move_base");
 
     //SUBSCRIBE
+    ros::Subscriber sub = n.subscribe("/darknet_ros/found_object", 1000, chatterCallback);
 
     ros::AsyncSpinner spinner(4); // Use 4 threads
     spinner.start();
