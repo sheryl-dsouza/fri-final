@@ -4,6 +4,7 @@
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <ros/ros.h>
+#include <std_msgs/Int8.h>
 
 using namespace ros;
 
@@ -52,21 +53,19 @@ void driveRobot(
 
 }
 
-void chatterCallback(const std_msgs::Int8::ConstPtr& msg)
-{
+void chatterCallback(const std_msgs::Int8::ConstPtr& msg) {
     switch (im_in_room) {
         case 0:
             break;
         case 1:
             ROS_INFO("In room 1");
-            ROS_INFO("I heard: [%s]", msg->data.c_str());
+            ROS_INFO("I heard: [%i]", msg->data);
             break;
         case 2:
             ROS_INFO("In room 2");
-            ROS_INFO("I heard: [%s]", msg->data.c_str());   
+            ROS_INFO("I heard: [%i]", msg->data);   
             break;          
-    }
-    
+    }    
  }
 
 int main(int argc, char **argv) {
