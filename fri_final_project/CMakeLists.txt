@@ -12,6 +12,8 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   std_msgs
   tf
+  darknet_ros
+ 
 )
 
 ## System dependencies are found with CMake's conventions
@@ -150,6 +152,15 @@ add_executable(hw5_nav_node
 add_executable(drive_around_node 
   src/drive_around_node.cpp
 )
+
+target_link_libraries(hw5_nav_node
+ ${catkin_LIBRARIES}
+)
+
+target_link_libraries(drive_around_node
+ ${catkin_LIBRARIES}
+)
+
  
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -163,14 +174,7 @@ add_executable(drive_around_node
  
 ## Specify libraries to link a library or executable target against
  
-target_link_libraries(hw5_nav_node
- ${catkin_LIBRARIES}
-)
 
-target_link_libraries(drive_around_node
- ${catkin_LIBRARIES}
-)
- 
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -241,3 +245,4 @@ target_link_libraries(drive_around_node
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
+

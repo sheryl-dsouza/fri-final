@@ -4,7 +4,13 @@
 #include <tf2_ros/transform_listener.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <ros/ros.h>
-#include <std_msgs/Int8.h>
+
+#include "std_msgs/Int8.h"
+#include "std_msgs/String.h"
+#include <darknet_ros_msgs/BoundingBoxes.h>
+#include <darknet_ros_msgs/BoundingBox.h>
+#include <darknet_ros_msgs/CheckForObjectsAction.h>
+
 
 using namespace ros;
 
@@ -54,6 +60,7 @@ void driveRobot(
 }
 
 void chatterCallback(const std_msgs::Int8::ConstPtr& msg) {
+    ROS_INFO("In room 1");
     switch (im_in_room) {
         case 0:
             break;
@@ -78,7 +85,7 @@ int main(int argc, char **argv) {
     MoveBaseClient ac("/move_base");
 
     //SUBSCRIBE
-    ros::Subscriber sub = n.subscribe("/darknet_ros/found_object", 1000, chatterCallback);
+    ros::Subscriber sub = n.subscribe("/darknet_ros/found_object", 1, chatterCallback);
 
     ros::AsyncSpinner spinner(4); // Use 4 threads
     spinner.start();
